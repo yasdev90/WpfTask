@@ -11,7 +11,6 @@ namespace WpfApp1
         public string Code { get; set; }
         public string Unit { get; set; }
         public string ImagePath { get; set; }
-
         public double Price { get; set; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Caching;
+using System.IO;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace WpfApp1
 {
@@ -25,23 +28,22 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-
+            header.Background = (Brush)new BrushConverter().ConvertFrom("#285faa");
             var products = new List<ProductDetails>
             {
-                new ProductDetails{Name="apple", Code="v001", Unit="KG", Price=1.2 , ImagePath="https://mangomart-autocount.myboostorder.com/wp-content/plugins/woocommerce/assets/images/placeholder.png"},
-                new ProductDetails{Name="grape", Code="v003", Unit="KG", Price=9.9},
-                new ProductDetails{Name="orange", Code="v002", Unit="KG", Price=1.4},
+                new ProductDetails{Name="apple", Code="v001", Unit="KG", Price=1.2 , ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
+                new ProductDetails{Name="grape", Code="v003", Unit="KG", Price=9.9, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
+                new ProductDetails{Name="orange", Code="v002", Unit="KG", Price=1.4, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
             };
             repeater.ItemsSource = products;
-           TryApi();
+            TryApi();
         }
 
-        public async Task TryApi()
+        public async Task<List<ProductDetails>> TryApi()
         {
             using (var httpClient = new HttpClient())
             {
-                var apiUrl = "https://mangomart-autocount.myboostorder.com/wp-json/wc/v1/products";
-                
+                var apiUrl = "https://mangomart-autocount.myboostorder.com/wp-json/wc/v1/products";                
                 var username = "ck_2682b35c4d9a8b6b6effac126ac552e0bfb315a0";
                 var password = "cs_cab8c9a729dfb49c50ce801a9ea41b577c00ad71";
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes($"{username}:{password}")));
@@ -50,13 +52,70 @@ namespace WpfApp1
                 if (code == System.Net.HttpStatusCode.OK)
                 {
                     var x = await products.Content.ReadAsStringAsync();
-                    MessageBox.Show("all ok");
+                    var jsonResult = JsonConvert.DeserializeObject<List<Product>>(x);
+                    var details = new List<ProductDetails>();
+                    jsonResult.ForEach(item => details.Add(item.GetProductDetails()));
+                    repeater.ItemsSource = details;
                 }
                 else
                 {
                     MessageBox.Show("not ok");
                 }
+                return new List<ProductDetails>();
             }
         }
+
+        private void decrease_Click(object sender, RoutedEventArgs e)
+        {
+            var quantity = 1;
+            var txtQuantity = (sender as Control).FindName("quantity") as TextBox;
+           if(int.TryParse(txtQuantity.Text, out quantity))
+            {
+                if (quantity > 1)
+                {
+                    quantity--;
+                    txtQuantity.Text =  quantity.ToString();
+                }
+            }
+        }
+
+        private void increase_Click(object sender, RoutedEventArgs e)
+        {
+            var quantity = 1;
+            var txtQuantity = (sender as Control).FindName("quantity") as TextBox;
+            if (int.TryParse(txtQuantity.Text, out quantity))
+            {
+                    quantity++;
+                    txtQuantity.Text = quantity.ToString();
+            }
+
+        }
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+
+            var cache = MemoryCache.Default;
+            string fileContents = cache["filecontents"] as string;
+
+            if (fileContents == null)
+            {
+                CacheItemPolicy policy = new CacheItemPolicy();
+                policy.AbsoluteExpiration =
+                    DateTimeOffset.Now.AddSeconds(10.0);
+
+                List<string> filePaths = new List<string>();
+                filePaths.Add("c:\\cache\\cacheText.txt");
+
+                policy.ChangeMonitors.Add(new
+                    HostFileChangeMonitor(filePaths));
+
+                // Fetch the file contents.
+                fileContents = File.ReadAllText("c:\\cache\\cacheText.txt") + "\n" + DateTime.Now.ToString();
+
+                cache.Set("filecontents", fileContents, policy);
+            }
+            MessageBox.Show(fileContents);
+        }
     }
+
+   
 }

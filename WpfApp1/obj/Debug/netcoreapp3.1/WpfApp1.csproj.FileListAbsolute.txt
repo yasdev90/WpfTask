@@ -17,3 +17,13 @@ C:\Users\user\source\repos\WpfApp1\WpfApp1\obj\Debug\netcoreapp3.1\WpfApp1.cspro
 C:\Users\user\source\repos\WpfApp1\WpfApp1\obj\Debug\netcoreapp3.1\WpfApp1.dll
 C:\Users\user\source\repos\WpfApp1\WpfApp1\obj\Debug\netcoreapp3.1\WpfApp1.pdb
 C:\Users\user\source\repos\WpfApp1\WpfApp1\obj\Debug\netcoreapp3.1\WpfApp1.genruntimeconfig.cache
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\obj\Debug\netcoreapp3.1\WpfApp1.csproj.CopyComplete
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+C:\Users\user\source\repos\WpfApp1\WpfApp1\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll

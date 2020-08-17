@@ -8,13 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="Green" />
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="FontSize" Value="20" />
-        </Style>       
+
+        </Style>
     </Window.Resources>
     <StackPanel>
-        <Grid x:Name="header" ShowGridLines="True" Height="100" HorizontalAlignment="Center" Width="798" Background="SkyBlue" >
+        <Grid x:Name="header" ShowGridLines="True" Height="61" HorizontalAlignment="Center" Width="798" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -23,7 +24,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock FontSize="40" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Margin="10" VerticalAlignment="Center">Quarter 1</TextBlock>
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -32,15 +32,17 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition Height="53*"  />
                 </Grid.RowDefinitions>
-                <Button Margin="10">search</Button>
-                <Button Grid.Column="1" Margin="10">barcode</Button>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center">total</TextBlock>
-                <Button Grid.Column="3" Margin="10">settings</Button>
+                <Image Grid.Column="0" VerticalAlignment="Center" Source="./Assets/white-search-icon-transparent-background-1.jpg" Height="42" />
+                <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Source="/Assets/barcode-png-tumblr-5.png" Height="42"  />
+                <TextBlock Grid.Column="2" Foreground="White" VerticalAlignment="Center" Grid.ColumnSpan="2" >total</TextBlock>
+                <Image Grid.Column="3" Source="/Assets/61140.png" Margin="24,12,10,21" RenderTransformOrigin="-0.109,0.937" />
+                <Button Click="button1_Click" Grid.Row="0" Grid.Column="1">reload</Button>
             </Grid>
+            <Label x:Name="label" Content="Fresh &amp; Healthy" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Foreground="White"/>
         </Grid>
-        <ItemsControl x:Name="repeater" ItemsSource="{Binding Path=AllItems}">
+        <ItemsControl x:Name="repeater" ItemsSource="{Binding Path=AllItems}">            
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="100" Margin="10" >
@@ -51,17 +53,19 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
+                            <RowDefinition />                            
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition Height="50"/>
+                            <RowDefinition />   
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Name}"></TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Code}"></TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Price}"></TextBlock>
-                        <TextBox Grid.Row="4" Grid.Column="0" Text="{Binding Path=Unit}" VerticalAlignment="Bottom"></TextBox>
-                        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Source="{Binding Path=ImagePath}" Width="100" Height="100" HorizontalAlignment="Right"></Image>
-                        <Grid Grid.Row="4" Grid.Column="1">
+                        <Label Grid.Row="4" Grid.Column="0" Foreground="Black" VerticalAlignment="Top">Uom</Label>
+                        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding Path=Unit}" VerticalAlignment="Bottom"></TextBox>
+                        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Source="{Binding Path=ImagePath}" Width="100" Height="100" HorizontalAlignment="Right"></Image>
+                        <Grid Grid.Row="5" Grid.Column="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -70,11 +74,11 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Button Grid.Column="0">-</Button>
-                            <TextBox Grid.Column="1" Text="1"></TextBox>
-                            <Button Grid.Column="2">+</Button>
-                        </Grid>                        
-                        <Button Grid.Row="4" Grid.Column="2">add to cart</Button>
+                            <Button x:Name="decrease" Grid.Column="0" Click="decrease_Click">-</Button>
+                            <TextBox x:Name="quantity" Grid.Column="1" Text="1"></TextBox>
+                            <Button  x:Name="increase" Grid.Column="2" Click="increase_Click">+</Button>
+                        </Grid>
+                        <Button Grid.Row="5" Grid.Column="2">add to cart</Button>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
