@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        WindowState="Maximized">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="Green" />
@@ -14,8 +15,9 @@
 
         </Style>
     </Window.Resources>
-    <StackPanel>
-        <Grid x:Name="header" ShowGridLines="True" Height="61" HorizontalAlignment="Center" Width="798" >
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel Width="Auto">
+        <Grid x:Name="header" ShowGridLines="True" Height="61" HorizontalAlignment="Stretch" Background="Blue" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -24,7 +26,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Grid.Column="2">
+                <Button x:Name="btnReload" Click="btnReload_Click" Grid.Row="0" Grid.Column="1">reload items</Button>
+                <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -37,8 +40,7 @@
                 <Image Grid.Column="0" VerticalAlignment="Center" Source="./Assets/white-search-icon-transparent-background-1.jpg" Height="42" />
                 <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Source="/Assets/barcode-png-tumblr-5.png" Height="42"  />
                 <TextBlock Grid.Column="2" Foreground="White" VerticalAlignment="Center" Grid.ColumnSpan="2" >total</TextBlock>
-                <Image Grid.Column="3" Source="/Assets/61140.png" Margin="24,12,10,21" RenderTransformOrigin="-0.109,0.937" />
-                <Button Click="button1_Click" Grid.Row="0" Grid.Column="1">reload</Button>
+                <Image Grid.Column="3" Source="/Assets/61140.png" Margin="24,12,10,21" RenderTransformOrigin="-0.109,0.937" />                
             </Grid>
             <Label x:Name="label" Content="Fresh &amp; Healthy" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Foreground="White"/>
         </Grid>
@@ -84,4 +86,5 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </StackPanel>
+        </ScrollViewer>
 </Window>

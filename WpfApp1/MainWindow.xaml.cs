@@ -25,17 +25,18 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<ProductDetails> _products = new List<ProductDetails>();
         public MainWindow()
         {
             InitializeComponent();
             header.Background = (Brush)new BrushConverter().ConvertFrom("#285faa");
-            var products = new List<ProductDetails>
+            _products = new List<ProductDetails>
             {
-                new ProductDetails{Name="apple", Code="v001", Unit="KG", Price=1.2 , ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
-                new ProductDetails{Name="grape", Code="v003", Unit="KG", Price=9.9, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
-                new ProductDetails{Name="orange", Code="v002", Unit="KG", Price=1.4, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
+                new ProductDetails{Name="apple", Description="v001", Unit="KG", Price=1.2 , ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
+                new ProductDetails{Name="grape", Description="v003", Unit="KG", Price=9.9, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
+                new ProductDetails{Name="orange", Description="v002", Unit="KG", Price=1.4, ImagePath="https://myboostorder.com/wp-content/uploads/sites/446/2020/08/2020-08-05_18h18_01-99x180.png"},
             };
-            repeater.ItemsSource = products;
+            repeater.ItemsSource = _products;
             TryApi();
         }
 
@@ -52,10 +53,12 @@ namespace WpfApp1
                 if (code == System.Net.HttpStatusCode.OK)
                 {
                     var x = await products.Content.ReadAsStringAsync();
-                    var jsonResult = JsonConvert.DeserializeObject<List<Product>>(x);
+                    WriteDataToLocalFile(x);
+                     var jsonResult = JsonConvert.DeserializeObject<List<Product>>(x);
                     var details = new List<ProductDetails>();
                     jsonResult.ForEach(item => details.Add(item.GetProductDetails()));
                     repeater.ItemsSource = details;
+                    MessageBox.Show("data refreshed");
                 }
                 else
                 {
@@ -88,34 +91,28 @@ namespace WpfApp1
                     quantity++;
                     txtQuantity.Text = quantity.ToString();
             }
-
         }
-        private void button1_Click(object sender, RoutedEventArgs e)
+
+        void WriteDataToLocalFile(string data)
         {
-
-            var cache = MemoryCache.Default;
-            string fileContents = cache["filecontents"] as string;
-
-            if (fileContents == null)
+            try
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                policy.AbsoluteExpiration =
-                    DateTimeOffset.Now.AddSeconds(10.0);
-
-                List<string> filePaths = new List<string>();
-                filePaths.Add("c:\\cache\\cacheText.txt");
-
-                policy.ChangeMonitors.Add(new
-                    HostFileChangeMonitor(filePaths));
-
-                // Fetch the file contents.
-                fileContents = File.ReadAllText("c:\\cache\\cacheText.txt") + "\n" + DateTime.Now.ToString();
-
-                cache.Set("filecontents", fileContents, policy);
+                var localDataPath = "../../../data.json";
+                if (!File.Exists(localDataPath))
+                {
+                    using FileStream fileStream = File.Open(localDataPath, FileMode.Append);
+                }
+                File.WriteAllText(localDataPath, data);
             }
-            MessageBox.Show(fileContents);
+            catch(Exception ex)
+            {
+                
+            }
         }
-    }
 
-   
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            TryApi();
+        }
+    }   
 }
