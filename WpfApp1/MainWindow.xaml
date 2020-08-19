@@ -5,86 +5,92 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        WindowState="Maximized">
-    <Window.Resources>
+        Title="Cart app" WindowState="Maximized">
+    <!--<Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="Green" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="FontSize" Value="20" />
 
         </Style>
-    </Window.Resources>
+    </Window.Resources>-->
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel Width="Auto">
-        <Grid x:Name="header" ShowGridLines="True" Height="61" HorizontalAlignment="Stretch" Background="Blue" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-                <Button x:Name="btnReload" Click="btnReload_Click" Grid.Row="0" Grid.Column="1">reload items</Button>
-                <Grid Grid.Column="2">
+            <Grid x:Name="header" ShowGridLines="True" Height="61" Background="Blue" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="53*"  />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Image Grid.Column="0" VerticalAlignment="Center" Source="./Assets/white-search-icon-transparent-background-1.jpg" Height="42" />
-                <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Source="/Assets/barcode-png-tumblr-5.png" Height="42"  />
-                <TextBlock Grid.Column="2" Foreground="White" VerticalAlignment="Center" Grid.ColumnSpan="2" >total</TextBlock>
-                <Image Grid.Column="3" Source="/Assets/61140.png" Margin="24,12,10,21" RenderTransformOrigin="-0.109,0.937" />                
+                <Button x:Name="btnReload" Click="btnReload_Click" Grid.Row="0" Grid.Column="1">reload items</Button>
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="53*"  />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Column="0" VerticalAlignment="Center" Source="/Assets/white-search-icon-transparent-background-1.jpg" Height="42" />
+                    <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Source="/Assets/barcode-png-tumblr-5.png" Height="42"  />
+                    <StackPanel Grid.Column="2">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Foreground="White" MouseDoubleClick="Label_MouseDoubleClick">Total: RM</Label>
+                            <Label x:Name="lblTotal" Foreground="White">0</Label>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <Image Grid.Column="3" Source="/Assets/61140.png" Margin="24,12,10,21" RenderTransformOrigin="-0.109,0.937" />
+                </Grid>
+                <Label x:Name="label" Content="Fresh &amp; Healthy" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Foreground="White"/>
             </Grid>
-            <Label x:Name="label" Content="Fresh &amp; Healthy" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Foreground="White"/>
-        </Grid>
-        <ItemsControl x:Name="repeater" ItemsSource="{Binding Path=AllItems}">            
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Height="100" Margin="10" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="500"/>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />                            
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />   
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Name}"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Code}"></TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Price}"></TextBlock>
-                        <Label Grid.Row="4" Grid.Column="0" Foreground="Black" VerticalAlignment="Top">Uom</Label>
-                        <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding Path=Unit}" VerticalAlignment="Bottom"></TextBox>
-                        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Source="{Binding Path=ImagePath}" Width="100" Height="100" HorizontalAlignment="Right"></Image>
-                        <Grid Grid.Row="5" Grid.Column="1">
+            <ItemsControl x:Name="repeater" ItemsSource="{Binding Path=AllItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="100" Margin="10" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition MinHeight="30" />
+                                <RowDefinition MinHeight="20" />
                             </Grid.RowDefinitions>
-                            <Button x:Name="decrease" Grid.Column="0" Click="decrease_Click">-</Button>
-                            <TextBox x:Name="quantity" Grid.Column="1" Text="1"></TextBox>
-                            <Button  x:Name="increase" Grid.Column="2" Click="increase_Click">+</Button>
+                            <TextBlock  x:Name="Id" Text="{Binding Path=Id}" Visibility="Hidden"></TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Name}"></TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Code}"></TextBlock>
+                            <TextBlock x:Name="price" Grid.Row="2" Grid.Column="0" Text="{Binding Path=Price}"></TextBlock>
+                            <Label Grid.Row="4" Grid.Column="0" Foreground="Black" Content="Uom"  VerticalAlignment="Top" x:Name="unit"></Label>
+                            <TextBox Grid.Row="5" Grid.Column="0" Text="{Binding Path=Unit}" VerticalAlignment="Bottom" IsEnabled="False"></TextBox>
+                            <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Source="{Binding Path=ImagePath}" Width="100" Height="100" HorizontalAlignment="Right"></Image>
+                            <Grid Grid.Row="5" Grid.Column="1"  Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Button x:Name="decrease" Grid.Column="0" Click="decrease_Click" Margin="4 0" FontSize="10">-</Button>
+                                <TextBox x:Name="quantity" Grid.Column="1" Text="1" Margin="4 0" FontSize="10" IsEnabled="False"></TextBox>
+                                <Button  x:Name="increase" Grid.Column="2" Click="increase_Click" Margin="4 0" FontSize="10">+</Button>
+                            </Grid>
+                            <Button x:Name="btnAddToCart" Click="btnAddToCart_Click" Grid.Row="5" Grid.Column="2" Margin="4 0" FontSize="10">add to cart</Button>
                         </Grid>
-                        <Button Grid.Row="5" Grid.Column="2">add to cart</Button>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
-        </ScrollViewer>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </Window>
